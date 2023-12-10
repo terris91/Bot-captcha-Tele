@@ -4,3 +4,6 @@ Một con bot cơ bản chỉ cần chạy bằng 1 file python, xác minh ngư�
 Thiếu module nào thì chỉ cần pip install "tên module"
 
 Dựa trên bot của [x-Force Group](https://t.me/xForceAlphaBot)
+
+![Uploading image.png…]()
+
