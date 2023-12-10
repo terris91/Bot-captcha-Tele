@@ -5,5 +5,5 @@ Thiếu module nào thì chỉ cần pip install "tên module"
 
 Dựa trên bot của [x-Force Group](https://t.me/xForceAlphaBot)
 
-![Uploading image.png…]()
+![Uploading image.png…](https://files.catbox.moe/vvriy4.jpg)
 
