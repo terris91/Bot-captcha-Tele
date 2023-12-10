@@ -7,17 +7,17 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 from captcha.image import ImageCaptcha
 
 # Đổi 'BOT_TOKEN' bằng token bot
-TOKEN = '6989035514:AAFVCXvf6x-KkHASuoF-VGI1zqd9MMd8i3A'
+TOKEN = 'BOT_TOKEN'
 
-# Từ điển lưu trữ giá trị captcha dành riêng cho người dùng
+# Từ điển lưu trữ giá trị captcha dành riêng cho người dùng 
 user_captchas = {}
 
 def start(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text('Hello! I am x-Hertz Alpha Bot. Type /captcha to do the reCAPTCHA.\n\nThis bot belongs to @IamxHz')
+    update.message.reply_text('Hello! I am ... Bot. Type /captcha to do the reCAPTCHA.\n\nThis bot belongs to ....')
 
 def generate_captcha() -> tuple[str, BytesIO]:
     # Tạo 1 cái captcha random (tự custom lại cũng được)
-    captcha_value = ''.join(random.choice('ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjklmnpqrstuvwxyz123456789') for _ in range(4)) #captcha dài 6 ký tự
+    captcha_value = ''.join(random.choice('ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjklmnpqrstuvwxyz123456789') for _ in range(4)) #captcha dài 4, ký tự có thể thay đổi
 
     
     captcha_image = ImageCaptcha()
