@@ -10,5 +10,7 @@ Dựa trên bot của [x-Force Group](https://t.me/xForceAlphaBot)
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
+Đừng chạy trên Replit vì cái này build khác
+
 ![Uploading image.png…](https://files.catbox.moe/vvriy4.jpg)
 
