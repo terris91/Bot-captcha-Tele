@@ -5,5 +5,7 @@ Thiếu module nào thì chỉ cần pip install "tên module"
 
 Dựa trên bot của [x-Force Group](https://t.me/xForceAlphaBot)
 
+Host thì dùng [Replit](https://replit.com/)
+
 ![Uploading image.png…](https://files.catbox.moe/vvriy4.jpg)
 
