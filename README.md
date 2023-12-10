@@ -5,7 +5,10 @@ Thiếu module nào thì chỉ cần pip install "tên module"
 
 Dựa trên bot của [x-Force Group](https://t.me/xForceAlphaBot)
 
-Host thì dùng [Replit](https://replit.com/)
+
+#### Host thì dùng Heroku
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ![Uploading image.png…](https://files.catbox.moe/vvriy4.jpg)
 
