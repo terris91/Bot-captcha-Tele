@@ -1,32 +1,37 @@
 # Source code Bot Telegram đơn giản sử dụng reCAPTCHA check người dùng dựa trên ChatGPT
+# Credit: NGUYỄN TRỌNG HOÀNG
+
 
 import random
+
 from io import BytesIO
 from telegram import Update
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 from captcha.image import ImageCaptcha
 
-# Thay 'BOT_TOKEN' với token bot từ BotFather
-TOKEN = 'BOT_TOKEN'
+# MAIN:
+
+# Thay 'BOT TOKEN' với token bot từ BotFather
+TOKEN = 'BOT TOKEN'
 
 user_captchas = {}
 
 def start(update: Update, context: CallbackContext) -> None:
     success_message = update.message.reply_photo(
-                photo=open('hihi.jpg', 'rb'),  # # Thay bằng ảnh khác, Ví dụ ở đây là cái ảnh hihi
-                caption='Hello there! I am *...*. Type /captcha to do the reCAPTCHA.\n\n_This bot belongs to ..._', # Thay ... bằng cái gì bạn tuỳ chọn
-                parse_mode='Markdown'
-            )
+        photo=open('hihi.jpg', 'rb'),  # Thay bằng ảnh khác, Ví dụ ở đây là cái ảnh hihi
+        caption='Hello there! I am *...*. Type /captcha to do the reCAPTCHA.\n\n_This bot belongs to @..._',# Thay ... bằng cái gì bạn tuỳ chọn hoặc ghi gì cũng được
+        parse_mode='Markdown'
+    )
 
 def generate_captcha() -> tuple[str, BytesIO]:
-    captcha_value = ''.join(random.choice('ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjklmnpqrstuvwxyz123456789') for _ in range(4)) # Số ký tự của captcha, ví dụ ở đây là 4
-    # Tạo ảnh đính kèm khi giải mã captcha thành công
+    captcha_value = ''.join(random.choice('ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjklmnpqrstuvwxyz123456789') for _ in range(4))# Số ký tự của captcha, ví dụ ở đây là 4
+
     captcha_image = ImageCaptcha()
-    
+
     image_data = captcha_image.generate(captcha_value)
-    
+
     image_bytesio = BytesIO(image_data.read())
-    image_bytesio.name = 'captcha.png'  
+    image_bytesio.name = 'captcha.png'
 
     return captcha_value, image_bytesio
 
@@ -36,10 +41,20 @@ def send_captcha(update: Update, context: CallbackContext) -> None:
     user_id = update.message.from_user.id
     user_captchas[user_id] = {'captcha_value': captcha_value, 'message_id': None}
 
-    sent_message = update.message.reply_photo(photo=image_bytesio, caption='Please type the characters shown in the image. Includes both uppercase and lowercase characters and numbers ')
+    # Đoạn này là khúc: Bot sẽ xoá tin nhắn sau khi người dùng gõ "/captcha"
+    try:
+        context.bot.delete_message(chat_id=update.effective_chat.id, message_id=update.message.message_id)
+    except Exception as e:
+        print(f"Error deleting message: {e}")
 
-    # Store the sent message ID for deletion later
+    sent_message = update.message.reply_photo(photo=image_bytesio,
+                                              caption='Please type the characters shown in the image. '
+                                                      'Includes both uppercase and lowercase characters and numbers ')
+
+    # Lưu trữ ID tin nhắn trên terminal
     user_captchas[user_id]['message_id'] = sent_message.message_id
+
+    print("Captcha sent successfully!")
 
 def check_captcha(update: Update, context: CallbackContext) -> None:
     user_id = update.message.from_user.id
@@ -48,42 +63,48 @@ def check_captcha(update: Update, context: CallbackContext) -> None:
         user_input = update.message.text
 
         if user_input == user_captchas[user_id]['captcha_value']:
-            # User completed the captcha correctly
+            # Khi user hoàn thành captcha
             success_message = update.message.reply_photo(
-                photo=open('hihi.jpg', 'rb'),  # Copy lại ở trên xuống
-                caption='reCAPTCHA passed! Join this group fast: [hoangdeptraivc.com](https://hoangdeptraivc.com)\n_This message will automatically disappear in 5 seconds._',
-                parse_mode='Markdown'  # Tự xoá sau 5 giây
+                photo=open('hihi.jpg', 'rb'),  
+                caption='reCAPTCHA passed! Join this group fast: [Hoangdeptrai](https://Hoangdeptrai.com)\n_This message will automatically disappear in 5 seconds._',
+                parse_mode='Markdown' # Xoá tin nhắn sau 5 giây
             )
 
-            # Xoá tin nhắn của cả User lẫn Bot khi nhập
+            # Xoá cả tin nhắn bot lẫn người dùng
             bot_message_id = user_captchas[user_id]['message_id']
             if bot_message_id:
                 context.bot.delete_message(chat_id=update.effective_chat.id, message_id=bot_message_id)
             context.bot.delete_message(chat_id=update.effective_chat.id, message_id=update.message.message_id)
 
-            # Xóa thông tin liên quan đến một người dùng khỏi cơ sở dữ liệu tạm thời (temporary storage)
+            # Xóa mục nhập user_id
             del user_captchas[user_id]
-            context.job_queue.run_once(lambda _: context.bot.delete_message(chat_id=update.effective_chat.id, message_id=success_message.message_id), 5)
+
+            # Set thời gian xoá tin nhắn (5 giây)
+            context.job_queue.run_once(lambda _: context.bot.delete_message(chat_id=update.effective_chat.id,
+                                                                            message_id=success_message.message_id), 5)
         else:
-            # Nếu nhập sai captcha
+            # Khi user nhập sai captcha
 
-            # Xoá tin nhắn của cả User lẫn Bot khi nhập sai
+            # Gửi tin nhắn Incorrect captcha. Please try again!
+            error_message = update.message.reply_text('Incorrect captcha. Please try again!')
+
+            # Xoá tin nhắn "Incorrect captcha. Please try again!" sau 1 giây
             bot_message_id = user_captchas[user_id]['message_id']
             if bot_message_id:
                 context.bot.delete_message(chat_id=update.effective_chat.id, message_id=bot_message_id)
             context.bot.delete_message(chat_id=update.effective_chat.id, message_id=update.message.message_id)
 
-            # Lặp lại 
+            # Tiếp tục xoá user_id
             del user_captchas[user_id]
 
-            # Auto gửi lại captcha khi nhập sai
+            # Delete sau 1 giây
+            context.job_queue.run_once(lambda _: context.bot.delete_message(chat_id=update.effective_chat.id,
+                                                                            message_id=error_message.message_id), 1)
+
+            # Captcha mới
             send_captcha(update, context)
     else:
         update.message.reply_text('Please use /captcha to get a new reCAPTCHA')
-
-def delete_message(context: CallbackContext):
-    # Xóa tin nhắn sau một khoảng thời gian nhất định
-    context.bot.delete_message(chat_id=context.job.context[1], message_id=context.job.context[2])
 
 def main() -> None:
     updater = Updater(TOKEN, use_context=True)
@@ -99,5 +120,6 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
+
 
 
