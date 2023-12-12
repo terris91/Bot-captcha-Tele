@@ -6,7 +6,7 @@ import random
 
 from io import BytesIO
 from telegram import Update
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext #Sẽ có tình trạng Filters bị lỗi thì sửa lại là filters
 from captcha.image import ImageCaptcha
 
 # MAIN:
