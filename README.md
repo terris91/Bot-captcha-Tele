@@ -1,6 +1,6 @@
 # Bot-captcha-Tele
 ## Một con bot cơ bản chỉ cần chạy bằng 1 file python, xác minh người dùng bằng reCAPTCHA và nếu đúng thì nó gửi link join group (hoặc 1 đoạn text gì đó) :)
-## MainVSCode là phiên bản cho VSCode, còn MainAll là phiên bản chạy cho host
+## MainVSCode là phiên bản cho VSCode, còn MainAll là phiên bản chạy cho host (không khác nhau mấy đâu :) )
 
 ### Fixed all
 Thiếu module nào thì chỉ cần pip install "tên module"
