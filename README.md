@@ -3,7 +3,7 @@
 
 ### Run
 ```
-pip install -r requirements.txt
+pip install -r req.txt
 ```
 
 #### Deploy trên [Render](render.com)
