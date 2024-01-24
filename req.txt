@@ -1,0 +1,3 @@
+python-telegram-bot==13.15
+captcha
+Pillow==8.3.2
