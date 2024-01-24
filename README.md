@@ -2,10 +2,11 @@
 ## Một con bot cơ bản chỉ cần chạy bằng 1 file python, xác minh người dùng bằng reCAPTCHA và nếu đúng thì nó gửi link join group (hoặc 1 đoạn text gì đó) :)
 
 ### Run
+```
 pip install -r requirements.txt
+```
 
-
-#### Host thì dùng [Render](render.com)
+#### Deploy trên [Render](render.com)
 
 Đừng chạy trên Replit vì cái này build khác
 
