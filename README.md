@@ -12,3 +12,5 @@ pip install -r req.txt
 
 ![Uploading image.png…](https://files.catbox.moe/vvriy4.jpg)
 
+# Bạn có thể nó tại đây -> https://t.me/xdralphabot
+## Response sẽ hơi chậm vì dùng render để deploy
