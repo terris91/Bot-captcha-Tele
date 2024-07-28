@@ -1,5 +1,5 @@
 # Source code Bot Telegram đơn giản sử dụng reCAPTCHA check người dùng dựa trên ChatGPT
-# Credit: NGUYỄN TRỌNG HOÀNG
+# Credit: HOÀNG
 
 # VUi lòng cài phiên bản 13.15 --> pip install python-telegram-bot==13.15
 
